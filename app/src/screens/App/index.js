@@ -2,6 +2,7 @@ import React from 'react'
 import {Layout} from 'antd'
 import {useRoute} from 'react-router5'
 
+import {axiosRequest} from '../../api'
 import {getUser} from '../../helpers/authHelpers'
 
 import Users from '../Users'
@@ -22,6 +23,12 @@ const App = () => {
   let content = null
   const routerContext = useRoute()
   const user = getUser()
+
+  if (user) {
+    axiosRequest.defaults.headers.common.Authorization = `Bearer ${
+      user.access_token
+    }`
+  }
 
   const testUnauthenticatedRoutes = () => {
     const unauthenticatedRoutes = ['signin', 'forgotPassword', 'resetPassword']
